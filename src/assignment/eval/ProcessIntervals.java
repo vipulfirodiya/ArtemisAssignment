@@ -16,8 +16,11 @@ public class ProcessIntervals {
 	
 	public static void getFinalInterval(ArrayList<ArrayList<Integer>> intervals, 
 			ArrayList<ArrayList<Integer>> excludingIntervals) {
+		
 		TreeSet<Integer> group1 = new TreeSet<Integer>();
 		Iterator<ArrayList<Integer>> intervalsItr = intervals.iterator();  
+		
+		//Map is using to store various sets of intervals depending on the break up of intervals 
 		Map<String, ArrayList<Integer>> preFinal = new HashMap<String, ArrayList<Integer>>();
 		ArrayList<Integer> preFinalElements = new ArrayList<Integer>();
 		String key = "0";
@@ -25,6 +28,8 @@ public class ProcessIntervals {
 			ArrayList<Integer> interval = intervalsItr.next();
 			int start = interval.get(0);
 			int end = interval.get(1);
+			
+			//if excluding interval is empty then key will not change through out the process
 			key = excludingIntervals.isEmpty()?key:start+"#"+end;
 			while(start <= end) {
 				boolean isValid = true;
@@ -38,6 +43,7 @@ public class ProcessIntervals {
 						key = exStart +"#"+ exEnd;
 					} 
 				}
+				//if number is lying within the range and it is not already added to stack then adding it
 				if(isValid && !group1.contains(start)) {
 					group1.add(start);
 					if(preFinal.containsKey(key)){
